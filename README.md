@@ -9,4 +9,4 @@ ng serve
 
 Et voilà! You have a QR code generator running on your localhost.
 
-![QR Generator](![img.png](img.png))
+![QR Generator](img.png)
