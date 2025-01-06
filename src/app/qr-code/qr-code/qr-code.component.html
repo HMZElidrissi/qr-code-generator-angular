@@ -1,31 +1,53 @@
-<div class="flex flex-col items-center p-6 bg-white rounded-xl shadow-lg">
-  <div class="mb-4">
-    <h2 class="text-2xl font-bold text-gray-800">QR Code Generator</h2>
-  </div>
+<div class="p-4 max-w-2xl">
+  <mat-card class="border-2 overflow-hidden bg-white shadow-md">
+    <mat-card-header>
+      <mat-card-title class="text-white font-bold">QR Code Generator</mat-card-title>
+      <mat-card-subtitle>Enter text or URL to generate a QR code</mat-card-subtitle>
+    </mat-card-header>
 
-  <div class="relative p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-    <canvas #qrCanvas class="rounded-lg" width="200" height="200"></canvas>
-    <div *ngIf="!data" class="absolute inset-0 flex items-center justify-center">
-      <p class="text-gray-400">Enter text to generate QR code</p>
-    </div>
-  </div>
+    <mat-card-content>
+      <!-- QR Code Canvas -->
+      <div class="canvas-container" [class.loading]="isLoading">
+        <canvas #qrCanvas [width]="width" [height]="height"></canvas>
 
-  <div class="w-full mt-6">
-    <input
-      [ngModel]="data"
-      (ngModelChange)="onInputChange($event)"
-      placeholder="Enter text or URL"
-      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-    />
-  </div>
+        <!-- Loading Overlay -->
+        <div class="overlay" *ngIf="isLoading">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
 
-  <div class="flex gap-4 mt-4">
-    <button
-      (click)="downloadQR()"
-      class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-      [disabled]="!data"
-    >
-      Download QR
-    </button>
-  </div>
+        <!-- Empty State -->
+        <div class="overlay empty-state" *ngIf="!data && !isLoading">
+          <mat-icon>qr_code_2</mat-icon>
+          <span>Enter text to generate QR code</span>
+        </div>
+
+        <!-- Error State -->
+        <div class="overlay error-state" *ngIf="error">
+          <mat-icon color="warn">error_outline</mat-icon>
+          <span>{{ error }}</span>
+        </div>
+      </div>
+
+      <!-- Input Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Enter text or URL</mat-label>
+        <input matInput
+               [ngModel]="data"
+               (ngModelChange)="onInputChange($event)"
+               placeholder="https://example.com">
+        <mat-icon matSuffix>link</mat-icon>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button
+              color="primary"
+              class="mb-4"
+              [disabled]="!data || isLoading"
+              (click)="downloadQR()">
+        <mat-icon>download</mat-icon>
+        <span>Download QR Code</span>
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>

@@ -9,7 +9,9 @@ export class QRCodeService {
     data: string,
     canvas: HTMLCanvasElement,
     width: number,
-    height: number
+    height: number,
+    dark: string,
+    light: string
   ): Promise<void> {
     try {
       await QRCode.toCanvas(canvas, data, {
