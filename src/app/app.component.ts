@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: false,
-  styleUrl: './app.component.css'
+  standalone: false
 })
 export class AppComponent {
-  title = 'qr-code-generator-angular';
+  title = 'QR Code Generator';
+  qrData = '';
 }
